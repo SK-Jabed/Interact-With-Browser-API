@@ -1,18 +1,38 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Shopping charset</title>
-</head>
-<body>
-    <input id="product-name" type="text" placeholder="Product">
-    <input id="product-quantity" type="text" placeholder="Quantity">
-    <button onclick="addProduct()" >Add Product</button>
+const addProduct  = () => {
+    const productField = document.getElementById("product-name");
+    const quantityField = document.getElementById("product-quantity");
+
+    const product = productField.value;
+    const quantity = quantityField.value;
+
+    productField.value = "";
+    quantityField.value = "";
+
+    console.log(product, quantity);
+    displayProduct(product, quantity);
+    savedProductToLocalStorage(product, quantity);
+}
+
+const displayProduct = (product, quantity) =>{
+    const ul = document.getElementById('product-container');
+    const li = document.createElement('li');
+    li.innerText = `${product}: ${quantity}`;
+    ul.appendChild(li);
+}
+
+
+const getStoredShoppingCart = () => {
+    let cart = {};
+    const storedCart = localStorage.getItem("cart");
+    if (storedCart) {
+        cart = JSON.parse(storedCart);
+    }
+    return cart;
+}
+
+
+const savedProductToLocalStorage = (product, quantity) => {
+    const cart = getStoredShoppingCart();
+    cart[product] = quantity;
     
-    <ul id="product-container">
-    </ul>
-    <script src="js/cart.js"></script>
-</body>
-</html>
+}
